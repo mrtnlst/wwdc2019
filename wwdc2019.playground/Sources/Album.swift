@@ -11,4 +11,11 @@ public class Album {
         self.mediaID = mediaID
         self.colors = colors
     }
+    
+    public func containsColor(_ color: Color) -> Bool {
+        if colors.contains(where: { $0.color.isEqual(color.color) }) {
+            return true
+        }
+        return false
+    }
 }

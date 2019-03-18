@@ -9,8 +9,11 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
     private var albumPickerView: AlbumPickerView!
     let colorPickerViewIdentifier = "colorPickerViewCell"
     let albumPickerViewIdentifier = "albumsPickerViewCell"
-    private var albums = [Album]()
+    private var sourceAlbums = [Album]()
+    private var visibleAlbums = [Album]()
     private var selectedColors = [Color]()
+    
+    // MARK: - Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,12 +29,14 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 guard let secondaryColor = artworkColors.secondary.closestBasicColor() else {
                     continue
                 }
-                albums.append(Album(artwork: artwork, mediaID: "\(index)", colors: [primaryColor, secondaryColor]))
+                sourceAlbums.append(Album(artwork: artwork, mediaID: "\(index)", colors: [primaryColor, secondaryColor]))
             }
         }
         albumPickerView.reloadData()
     }
 
+    // MARK: - UI
+    
     private func configureViews() {
         view.backgroundColor = .darkGray
         
@@ -75,12 +80,14 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             ])
     }
     
+    // MARK: - UICollectionViewDelegates
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == colorPickerView {
             return basicColors.count
         }
         else {
-            return albums.count
+            return visibleAlbums.count
         }
     }
     
@@ -94,7 +101,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
         }
         else {
             let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: albumPickerViewIdentifier, for: indexPath) as! AlbumCell
-            cellB.artwork.image = albums[indexPath.row].artwork
+            cellB.artwork.image = visibleAlbums[indexPath.row].artwork
             return cellB
         }
     }
@@ -116,6 +123,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
             if let cell = (colorPickerView.visibleCells as! [ColorCell]).filter({ $0.color.color.isEqual(color.color)}).first {
                 cell.setSelectionState(to: .unselected)
                 selectedColors.removeAll(where: { $0.color.isEqual(color.color) })
+                refreshVisibleAlbums()
                 return
             }
         }
@@ -134,6 +142,21 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICo
                 cell.setSelectionState(to: .unselected)
             }
         }
+        refreshVisibleAlbums()
+    }
+    
+    /// Manages which albums are shown for selected colors.
+    
+    private func refreshVisibleAlbums() {
+        visibleAlbums.removeAll()
+        for color in selectedColors {
+            for album in sourceAlbums {
+                if album.containsColor(color) && !visibleAlbums.contains(where: { $0.mediaID == album.mediaID }) {
+                    visibleAlbums.append(album)
+                }
+            }
+        }
+        albumPickerView.reloadData()
     }
 }
 
