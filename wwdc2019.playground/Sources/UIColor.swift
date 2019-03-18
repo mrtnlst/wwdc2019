@@ -22,4 +22,5 @@ public extension UIColor {
         }
         return nil
     }
+    static let colorSelected = UIColor(red:0.51, green:0.72, blue:0.84, alpha:1.0)
 }

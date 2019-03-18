@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-public class AlbumsCell: UICollectionViewCell {
+public class AlbumCell: UICollectionViewCell {
     
     // MARK: - Properties
     
