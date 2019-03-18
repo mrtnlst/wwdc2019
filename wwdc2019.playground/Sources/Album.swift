@@ -12,10 +12,15 @@ public class Album {
         self.colors = colors
     }
     
-    public func containsColor(_ color: Color) -> Bool {
-        if colors.contains(where: { $0.color.isEqual(color.color) }) {
-            return true
+    public func containsColors(_ selectedColors: [Color]) -> Bool {
+        if selectedColors.isEmpty {
+            return false
         }
-        return false
+        for selectedColor in selectedColors {
+            if !colors.contains(where: { $0.color.isEqual(selectedColor.color) }) {
+                return false
+            }
+        }
+        return true
     }
 }

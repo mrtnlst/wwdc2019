@@ -3,16 +3,23 @@ import UIKit
 
 // Gathering test data.
 var albums = [Album]()
-for index in 1...3 {
+for index in 1...4 {
     if let artwork = UIImage(named: "artwork\(index).jpg") {
         let artworkColors = artwork.getColors()
-        guard let primaryColor = artworkColors.primary.closestBasicColor() else {
-            continue
+        var colorsForAlbum = [Color]()
+        if let primaryColor = artworkColors.primary.closestBasicColor() {
+            colorsForAlbum.append(primaryColor)
         }
-        guard let secondaryColor = artworkColors.secondary.closestBasicColor() else {
-            continue
+        if let secondaryColor = artworkColors.secondary.closestBasicColor() {
+            colorsForAlbum.append(secondaryColor)
         }
-        albums.append(Album(artwork: artwork, mediaID: "\(index)", colors: [primaryColor, secondaryColor]))
+        if let backgroundColor = artworkColors.background.closestBasicColor() {
+            colorsForAlbum.append(backgroundColor)
+        }
+//        if let detailColor = artworkColors.detail.closestBasicColor() {
+//            colorsForAlbum.append(detailColor)
+//        }
+        albums.append(Album(artwork: artwork, mediaID: "\(index)", colors: colorsForAlbum))
     }
 }
 

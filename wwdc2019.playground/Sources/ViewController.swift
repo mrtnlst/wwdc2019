@@ -143,13 +143,12 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     
     private func refreshVisibleAlbums() {
         visibleAlbums.removeAll()
-        for color in selectedColors {
-            for album in sourceAlbums {
-                if album.containsColor(color) && !visibleAlbums.contains(where: { $0.mediaID == album.mediaID }) {
-                    visibleAlbums.append(album)
-                }
+        for album in sourceAlbums {
+            if album.containsColors(selectedColors) && !visibleAlbums.contains(where: { $0.mediaID == album.mediaID }) {
+                visibleAlbums.append(album)
             }
         }
+    
         albumPickerView.reloadData()
     }
 }
