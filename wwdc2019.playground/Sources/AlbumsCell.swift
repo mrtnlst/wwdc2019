@@ -6,6 +6,7 @@ public class AlbumCell: UICollectionViewCell {
     // MARK: - Properties
     
     public var artwork: UIImageView!
+    public var album: Album!
 
     // MARK: - Life cycle
     

@@ -7,8 +7,8 @@ public class AlbumPickerView: UICollectionView {
     public init(frame: CGRect) {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 75, height: 75)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        layout.itemSize = CGSize(width: 65, height: 65)
         super.init(frame: frame, collectionViewLayout: layout)
         
         translatesAutoresizingMaskIntoConstraints = false

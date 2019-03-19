@@ -23,6 +23,10 @@ public class ColorCell: UICollectionViewCell {
         setupViews()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - UI
     
     func setupViews() {
@@ -44,6 +48,8 @@ public class ColorCell: UICollectionViewCell {
         contentView.addSubview(selectionLayer)
     }
     
+    // MARK: - Public
+    
     public func setSelectionState(to selectionState: SelectionState) {
         self.selectionState = selectionState
         switch selectionState {
@@ -57,9 +63,5 @@ public class ColorCell: UICollectionViewCell {
     public func setColor(to color: Color) {
         self.color = color
         backgroundColor = color.uicolor
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -3,14 +3,18 @@ import Foundation
 
 public class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
-    private var titleLabel = UILabel()
+    // MARK: - Properties
+    
+    private var colorPickerTitle = UILabel()
+    private var albumListTitle = UILabel()
     private var colorPickerView: ColorPickerView!
     private var albumPickerView: AlbumPickerView!
-    let colorPickerViewIdentifier = "colorPickerViewCell"
-    let albumPickerViewIdentifier = "albumsPickerViewCell"
+    private var playerView: PlayerView!
     private var sourceAlbums: [Album]
     private var visibleAlbums = [Album]()
     private var selectedColors = [Color]()
+    let colorPickerViewIdentifier = "colorPickerViewCell"
+    let albumPickerViewIdentifier = "albumsPickerViewCell"
     
     // MARK: - Life cycle
     
@@ -34,11 +38,18 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     private func configureViews() {
         view.backgroundColor = .midnightBlue
         
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
-        titleLabel.textColor = .white
-        titleLabel.text = "Pick a color"
-        view.addSubview(titleLabel)
+        colorPickerTitle.translatesAutoresizingMaskIntoConstraints = false
+        colorPickerTitle.font = UIFont.systemFont(ofSize: 40, weight: .bold)
+        colorPickerTitle.textColor = .white
+        colorPickerTitle.text = "Pick a color"
+        view.addSubview(colorPickerTitle)
+        
+        albumListTitle.translatesAutoresizingMaskIntoConstraints = false
+        albumListTitle.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        albumListTitle.textColor = .white
+        albumListTitle.text = "Albums"
+        albumListTitle.textAlignment = .center
+        view.addSubview(albumListTitle)
         
         colorPickerView = ColorPickerView(frame: .zero)
         colorPickerView.delegate = self
@@ -52,24 +63,40 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         albumPickerView.dataSource = self
         albumPickerView.register(AlbumCell.self, forCellWithReuseIdentifier: albumPickerViewIdentifier)
         
-        albumPickerView.backgroundColor = .midnightBlue
+        playerView = PlayerView(frame: .zero)
+        playerView.translatesAutoresizingMaskIntoConstraints = false
+        playerView.backgroundColor = .midnightBlue
+        view.addSubview(playerView)
+        
+        albumPickerView.backgroundColor = UIColor.midnightBlue
         view.addSubview(albumPickerView)
     }
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorPickerTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            colorPickerTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            colorPickerView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            colorPickerView.topAnchor.constraint(equalTo: colorPickerTitle.bottomAnchor, constant: 10),
             colorPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             colorPickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             colorPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 1/7),
             
-            albumPickerView.topAnchor.constraint(equalTo: colorPickerView.bottomAnchor),
+            albumListTitle.topAnchor.constraint(equalTo: colorPickerView.bottomAnchor, constant: 8),
+            albumListTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            albumListTitle.trailingAnchor.constraint(equalTo: view.centerXAnchor),
+
+            albumPickerView.topAnchor.constraint(equalTo: albumListTitle.bottomAnchor),
             albumPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             albumPickerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             albumPickerView.trailingAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            playerView.topAnchor.constraint(equalTo: colorPickerView.bottomAnchor),
+            playerView.leadingAnchor.constraint(equalTo: view.centerXAnchor),
+            playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            
             ])
     }
     
@@ -95,6 +122,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         else {
             let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: albumPickerViewIdentifier, for: indexPath) as! AlbumCell
             cellB.artwork.image = visibleAlbums[indexPath.row].artwork
+            cellB.album = visibleAlbums[indexPath.row]
             return cellB
         }
     }
@@ -104,6 +132,8 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
             setSelectedColor(cellA.color)
         }
         else {
+            let cellB = collectionView.cellForItem(at: indexPath) as! AlbumCell
+            playerView.playAlbum(cellB.album)
         }
     }
     
@@ -161,7 +191,6 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
                 visibleAlbums.append(album)
             }
         }
-    
         albumPickerView.reloadData()
     }
 }

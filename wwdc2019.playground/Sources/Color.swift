@@ -2,9 +2,14 @@ import Foundation
 import UIKit
 
 public struct Color {
+   
+    // MARK: - Properties
+
     public var uicolor: UIColor
     public var name: String
-    
+
+    // MARK: - Life cycle
+
     public init() {
         self.uicolor = .white
         self.name = "Error"
