@@ -52,7 +52,7 @@ public class ColorCell: UICollectionViewCell {
     
     public func setColor(to color: Color) {
         self.color = color
-        backgroundColor = color.color
+        backgroundColor = color.uicolor
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -17,7 +17,7 @@ public class Album {
             return false
         }
         for selectedColor in selectedColors {
-            if !colors.contains(where: { $0.color.isEqual(selectedColor.color) }) {
+            if !colors.contains(where: { $0.uicolor.isEqual(selectedColor.uicolor) }) {
                 return false
             }
         }

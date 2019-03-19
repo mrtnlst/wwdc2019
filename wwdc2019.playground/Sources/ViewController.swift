@@ -65,7 +65,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
             colorPickerView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             colorPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             colorPickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            colorPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 1/8),
+            colorPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 1/7),
             
             albumPickerView.topAnchor.constraint(equalTo: colorPickerView.bottomAnchor),
             albumPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -108,15 +108,19 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         }
     }
     
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 25
+    }
+    
     // MARK: - Helper
     
     /// Makes sure that only 2 colors are selected at the same time.
     
     private func setSelectedColor(_ color: Color) {
-        if selectedColors.contains(where: { $0.color.isEqual(color.color) }) {
-            if let cell = (colorPickerView.visibleCells as! [ColorCell]).filter({ $0.color.color.isEqual(color.color)}).first {
+        if selectedColors.contains(where: { $0.uicolor.isEqual(color.uicolor) }) {
+            if let cell = (colorPickerView.visibleCells as! [ColorCell]).filter({ $0.color.uicolor.isEqual(color.uicolor)}).first {
                 cell.setSelectionState(to: .unselected)
-                selectedColors.removeAll(where: { $0.color.isEqual(color.color) })
+                selectedColors.removeAll(where: { $0.uicolor.isEqual(color.uicolor) })
                 refreshVisibleAlbums()
                 return
             }
@@ -129,7 +133,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
             selectedColors[1] = color
         }
         for cell in colorPickerView.visibleCells as! [ColorCell] {
-            if selectedColors.contains(where: { $0.color.isEqual(cell.color.color) }) {
+            if selectedColors.contains(where: { $0.uicolor.isEqual(cell.color.uicolor) }) {
                 cell.setSelectionState(to: .selected)
             }
             else {

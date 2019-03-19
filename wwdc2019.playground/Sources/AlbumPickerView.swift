@@ -9,7 +9,6 @@ public class AlbumPickerView: UICollectionView {
         
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         layout.itemSize = CGSize(width: 75, height: 75)
-        
         super.init(frame: frame, collectionViewLayout: layout)
         
         translatesAutoresizingMaskIntoConstraints = false
