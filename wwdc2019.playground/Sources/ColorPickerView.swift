@@ -13,7 +13,6 @@ public class ColorPickerView: UICollectionView {
         super.init(frame: frame, collectionViewLayout: layout)
         
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .white
     }
     
     required init?(coder aDecoder: NSCoder) {

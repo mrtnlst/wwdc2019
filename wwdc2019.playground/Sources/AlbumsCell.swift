@@ -21,6 +21,10 @@ public class AlbumCell: UICollectionViewCell {
         artwork.layer.cornerRadius = 10.0
         artwork.clipsToBounds = true
         contentView.addSubview(artwork)
+        
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        layer.shadowOpacity = 0.2
     }
     
     required init?(coder aDecoder: NSCoder) {

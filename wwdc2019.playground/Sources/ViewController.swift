@@ -32,10 +32,10 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     // MARK: - UI
     
     private func configureViews() {
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .midnightBlue
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        titleLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
         titleLabel.textColor = .white
         titleLabel.text = "Pick a color"
         view.addSubview(titleLabel)
@@ -43,9 +43,8 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         colorPickerView = ColorPickerView(frame: .zero)
         colorPickerView.delegate = self
         colorPickerView.dataSource = self
-        colorPickerView.register(ColorCell.self, forCellWithReuseIdentifier: colorPickerViewIdentifier)
-        
-        colorPickerView.backgroundColor = .lightGray
+        colorPickerView.register(ColorCell.self, forCellWithReuseIdentifier: colorPickerViewIdentifier)        
+        colorPickerView.backgroundColor = .midnightBlue
         view.addSubview(colorPickerView)
         
         albumPickerView = AlbumPickerView(frame: .zero)
@@ -53,7 +52,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         albumPickerView.dataSource = self
         albumPickerView.register(AlbumCell.self, forCellWithReuseIdentifier: albumPickerViewIdentifier)
         
-        albumPickerView.backgroundColor = .blue
+        albumPickerView.backgroundColor = .midnightBlue
         view.addSubview(albumPickerView)
     }
     
@@ -109,7 +108,17 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 25
+        if collectionView == colorPickerView {
+            return 25
+        }
+        return 10
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == colorPickerView {
+            return 20
+        }
+        return 10
     }
     
     // MARK: - Helper

@@ -37,6 +37,10 @@ public class ColorCell: UICollectionViewCell {
         selectionLayer.layer.borderColor = UIColor.colorSelected.cgColor
         selectionLayer.backgroundColor = UIColor.clear
         
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        layer.shadowOpacity = 0.2
+        
         contentView.addSubview(selectionLayer)
     }
     
