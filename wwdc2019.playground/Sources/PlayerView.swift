@@ -107,6 +107,7 @@ let predicate = MPMediaPropertyPredicate(value: currentAlbum.mediaID,
     @objc private func pauseAction() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         musicToolBar.setItems([flexibleSpace, backwardButton, flexibleSpace, playButton, flexibleSpace, forwardButton, flexibleSpace], animated: true)
+        MPMusicPlayerController.systemMusicPlayer.pause()
     }
     
     // MARK: - Public
