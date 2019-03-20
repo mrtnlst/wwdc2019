@@ -35,6 +35,8 @@ public extension UIColor {
     static let colorSelected = UIColor.white
     static let midnightBlue = UIColor(red:0.17, green:0.24, blue:0.31, alpha:1.0)
     static let midnightBlueDark = UIColor(red:0.14, green:0.19, blue:0.25, alpha:1.0)
+    static let colorPickerBackground = UIColor(red:0.16, green:0.22, blue:0.28, alpha:1.0)
+
     static let midnightBlueSelected = UIColor(red:0.24, green:0.35, blue:0.44, alpha:1.0)
 }
 
