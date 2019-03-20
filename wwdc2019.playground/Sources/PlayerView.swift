@@ -7,7 +7,7 @@ public class PlayerView: UIView {
     // MARK: - Properties
     
     private var artwork = UIImageView()
-    private var currentAlbum: Album!
+    private var currentAlbum: Album?
     private var titleLabel = UILabel()
     private var musicToolBar = UIToolbar()
     private var playButton: UIBarButtonItem!
@@ -87,26 +87,36 @@ public class PlayerView: UIView {
     
     // MARK: - Actions
     @objc private func playAction() {
+        guard let albumToPlay = currentAlbum else { return }
+        
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         musicToolBar.setItems([flexibleSpace, backwardButton, flexibleSpace, pauseButton, flexibleSpace, forwardButton, flexibleSpace], animated: true)
+        
+        // Resume playback on current song.
+        if let nowPlayingItem = MPMusicPlayerController.systemMusicPlayer.nowPlayingItem {
+            if let nowPlayingItemID = (nowPlayingItem.value(forProperty: MPMediaItemPropertyAlbumPersistentID) as? NSNumber)?.stringValue {
+                if nowPlayingItemID == albumToPlay.mediaID {
+                    MPMusicPlayerController.systemMusicPlayer.play()
+                    return
+                }
+            }
+        }
 
-let predicate = MPMediaPropertyPredicate(value: currentAlbum.mediaID,
-                                                 forProperty: MPMediaItemPropertyAlbumPersistentID,
-                                                 comparisonType: MPMediaPredicateComparison.equalTo)
-        
-        
-        let filter: Set<MPMediaPropertyPredicate> = [predicate]
-        let query = MPMediaQuery(filterPredicates: filter)
-        
-        MPMusicPlayerController.systemMusicPlayer.setQueue(with: query)
-        MPMusicPlayerController.systemMusicPlayer.prepareToPlay()
-        MPMusicPlayerController.systemMusicPlayer.play()
-	
+        let predicate = MPMediaPropertyPredicate(value: albumToPlay.mediaID, forProperty: MPMediaItemPropertyAlbumPersistentID, comparisonType: MPMediaPredicateComparison.equalTo)
+
+        let filter: Set<MPMediaPropertyPredicate> = [predicate]
+        let query = MPMediaQuery(filterPredicates: filter)
+        MPMusicPlayerController.systemMusicPlayer.setQueue(with: query)
+        MPMusicPlayerController.systemMusicPlayer.prepareToPlay()
+        MPMusicPlayerController.systemMusicPlayer.play()
+        
+        
     }
     
     @objc private func pauseAction() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         musicToolBar.setItems([flexibleSpace, backwardButton, flexibleSpace, playButton, flexibleSpace, forwardButton, flexibleSpace], animated: true)
+        
         MPMusicPlayerController.systemMusicPlayer.pause()
     }
     
@@ -115,6 +125,6 @@ let predicate = MPMediaPropertyPredicate(value: currentAlbum.mediaID,
     public func playAlbum(_ album: Album)  {
         artwork.image = album.artwork
         currentAlbum = album 
-        pauseAction()
+        playAction()
     }
 }
