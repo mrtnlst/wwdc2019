@@ -94,8 +94,8 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
             colorPickerTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             colorPickerView.topAnchor.constraint(equalTo: colorPickerTitle.bottomAnchor, constant: 10),
-            colorPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            colorPickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            colorPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            colorPickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             colorPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 1/7),
             
             albumListTitleView.topAnchor.constraint(equalTo: colorPickerView.bottomAnchor, constant: 10),

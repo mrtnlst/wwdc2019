@@ -59,10 +59,10 @@ public class PlayerView: UIView {
         pauseButton = UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(pauseAction))
         pauseButton.tintColor = .white
         
-        forwardButton = UIBarButtonItem(barButtonSystemItem: .fastForward, target: self, action: nil)
+        forwardButton = UIBarButtonItem(barButtonSystemItem: .fastForward, target: self, action: #selector(forwardAction))
         forwardButton.tintColor = .white
         
-        backwardButton = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: nil)
+        backwardButton = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: #selector(backwardAction))
         backwardButton.tintColor = .white
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -98,8 +98,8 @@ public class PlayerView: UIView {
             artwork.widthAnchor.constraint(equalToConstant: 120),
             
             albumTitle.topAnchor.constraint(equalTo: artwork.bottomAnchor, constant: 10),
-            albumTitle.leadingAnchor.constraint(equalTo: artwork.leadingAnchor, constant: -5),
-            albumTitle.trailingAnchor.constraint(equalTo: artwork.trailingAnchor, constant: 5),
+            albumTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            albumTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             
             playToolBar.topAnchor.constraint(equalTo: albumTitle.bottomAnchor, constant: 10),
             playToolBar.leadingAnchor.constraint(equalTo: artwork.leadingAnchor, constant: 15),
@@ -123,29 +123,41 @@ public class PlayerView: UIView {
         playToolBar.setItems([flexibleSpace, pauseButton, flexibleSpace], animated: true)
         
 //        // Resume playback on current song.
-//        if let nowPlayingItem = MPMusicPlayerController.systemMusicPlayer.nowPlayingItem {
-//            if let nowPlayingItemID = (nowPlayingItem.value(forProperty: MPMediaItemPropertyAlbumPersistentID) as? NSNumber)?.stringValue {
-//                if nowPlayingItemID == albumToPlay.mediaID {
-//                    MPMusicPlayerController.systemMusicPlayer.play()
-//                    return
-//                }
-//            }
-//        }
-//
-//        let predicate = MPMediaPropertyPredicate(value: albumToPlay.mediaID, forProperty: MPMediaItemPropertyAlbumPersistentID, comparisonType: MPMediaPredicateComparison.equalTo)
-//
-//        let filter: Set<MPMediaPropertyPredicate> = [predicate]
-//        let query = MPMediaQuery(filterPredicates: filter)
-//        MPMusicPlayerController.systemMusicPlayer.setQueue(with: query)
-//        MPMusicPlayerController.systemMusicPlayer.prepareToPlay()
-//        MPMusicPlayerController.systemMusicPlayer.play()
+        if let nowPlayingItem = MPMusicPlayerController.systemMusicPlayer.nowPlayingItem {
+            if let nowPlayingItemID = (nowPlayingItem.value(forProperty: MPMediaItemPropertyAlbumPersistentID) as? NSNumber)?.stringValue {
+                if nowPlayingItemID == albumToPlay.mediaID {
+                    MPMusicPlayerController.systemMusicPlayer.play()
+                    return
+                }
+            }
+        }
+
+        let predicate = MPMediaPropertyPredicate(value: albumToPlay.mediaID, forProperty: MPMediaItemPropertyAlbumPersistentID, comparisonType: MPMediaPredicateComparison.equalTo)
+
+        let filter: Set<MPMediaPropertyPredicate> = [predicate]
+        let query = MPMediaQuery(filterPredicates: filter)
+        MPMusicPlayerController.systemMusicPlayer.setQueue(with: query)
+        MPMusicPlayerController.systemMusicPlayer.prepareToPlay()
+        MPMusicPlayerController.systemMusicPlayer.play()
     }
     
     @objc private func pauseAction() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         playToolBar.setItems([flexibleSpace, playButton, flexibleSpace], animated: true)
         
-//        MPMusicPlayerController.systemMusicPlayer.pause()
+        MPMusicPlayerController.systemMusicPlayer.pause()
+    }
+    
+    @objc private func forwardAction() {
+        MPMusicPlayerController.systemMusicPlayer.skipToNextItem()
+    }
+    
+    @objc private func backwardAction() {
+        if MPMusicPlayerController.systemMusicPlayer.currentPlaybackTime < 5 {
+            MPMusicPlayerController.systemMusicPlayer.skipToPreviousItem()
+            return
+        }
+        MPMusicPlayerController.systemMusicPlayer.skipToBeginning()
     }
     
     // MARK: - Public

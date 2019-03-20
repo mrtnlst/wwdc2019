@@ -13,6 +13,7 @@ public class ColorPickerView: UICollectionView {
         
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .colorPickerBackground
+        layer.cornerRadius = 10
     }
     
     required init?(coder aDecoder: NSCoder) {
