@@ -90,8 +90,7 @@ public class PlayerView: UIView {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         musicToolBar.setItems([flexibleSpace, backwardButton, flexibleSpace, pauseButton, flexibleSpace, forwardButton, flexibleSpace], animated: true)
 
-if let id = currentAlbum.mediaID {
-let predicate = MPMediaPropertyPredicate(value: id,
+let predicate = MPMediaPropertyPredicate(value: currentAlbum.mediaID,
                                                  forProperty: MPMediaItemPropertyAlbumPersistentID,
                                                  comparisonType: MPMediaPredicateComparison.equalTo)
         
@@ -102,7 +101,7 @@ let predicate = MPMediaPropertyPredicate(value: id,
         MPMusicPlayerController.systemMusicPlayer.setQueue(with: query)
         MPMusicPlayerController.systemMusicPlayer.prepareToPlay()
         MPMusicPlayerController.systemMusicPlayer.play()
-	}
+	
     }
     
     @objc private func pauseAction() {
