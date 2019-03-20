@@ -1,11 +1,13 @@
 import Foundation
 import UIKit
+import MediaPlayer
 
 public class PlayerView: UIView {
    
     // MARK: - Properties
     
     private var artwork = UIImageView()
+    private var currentAlbum: Album!
     private var titleLabel = UILabel()
     private var musicToolBar = UIToolbar()
     private var playButton: UIBarButtonItem!
@@ -87,6 +89,20 @@ public class PlayerView: UIView {
     @objc private func playAction() {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         musicToolBar.setItems([flexibleSpace, backwardButton, flexibleSpace, pauseButton, flexibleSpace, forwardButton, flexibleSpace], animated: true)
+
+if let id = currentAlbum.mediaID {
+let predicate = MPMediaPropertyPredicate(value: id,
+                                                 forProperty: MPMediaItemPropertyAlbumPersistentID,
+                                                 comparisonType: MPMediaPredicateComparison.equalTo)
+        
+        
+        let filter: Set<MPMediaPropertyPredicate> = [predicate]
+        let query = MPMediaQuery(filterPredicates: filter)
+        
+        MPMusicPlayerController.systemMusicPlayer.setQueue(with: query)
+        MPMusicPlayerController.systemMusicPlayer.prepareToPlay()
+        MPMusicPlayerController.systemMusicPlayer.play()
+	}
     }
     
     @objc private func pauseAction() {
@@ -98,6 +114,7 @@ public class PlayerView: UIView {
     
     public func playAlbum(_ album: Album)  {
         artwork.image = album.artwork
+        currentAlbum = album 
         pauseAction()
     }
 }
