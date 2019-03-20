@@ -50,6 +50,7 @@ public class PlayerView: UIView {
         albumTitle.text = ". . ."
         albumTitle.textAlignment = .center
         albumTitle.numberOfLines = 1
+        albumTitle.textAlignment = .center
         addSubview(albumTitle)
         
         // UIBarButtonItems
