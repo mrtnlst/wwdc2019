@@ -9,18 +9,24 @@ public enum DeviceContext {
 
 public class DataSource {
     
-    public static func getAlbumData(for context: DeviceContext) -> [Album] {
+    public var sourceAlbums = [Album]()
+    private var context: DeviceContext
+    
+    public init(context: DeviceContext) {
+        self.context = context
+    }
+    
+    public func getData(completion: () -> Void) {
         switch context {
         case .iOS:
-            return getiOSData()
+            getiOSData()
+            completion()
         case .macOS:
-            return getmacOSData()
+            completion()
         }
     }
     
-    static func getmacOSData() -> [Album] {
-        var sourceAlbums = [Album]()
-        
+    func getmacOSData() {
         for index in 1...10 {
           if let artwork = UIImage(named: "artwork\(index).jpg") {
               let artworkColors = artwork.getColors()
@@ -41,12 +47,9 @@ public class DataSource {
             sourceAlbums.append(Album(artwork: artwork, mediaID: "\(index)", title: title, colors: colorsForAlbum))
           }
         }
-        return sourceAlbums
     }
     
-    static func getiOSData() -> [Album] {
-        var sourceAlbums = [Album]()
-        
+    func getiOSData() {
         if let albums = MPMediaQuery.albums().collections {
             for album in albums {
                 guard let artwork = (album.representativeItem?.value(forProperty: MPMediaItemPropertyArtwork) as? MPMediaItemArtwork)?.image(at: CGSize(width: 60, height: 60)) else { continue }
@@ -62,9 +65,9 @@ public class DataSource {
                 if let backgroundColor = artworkColors.background.closestBasicColor() {
                     colorsForAlbum.append(backgroundColor)
                 }
-                if let detailColor = artworkColors.detail.closestBasicColor() {
-                    colorsForAlbum.append(detailColor)
-                }
+//                if let detailColor = artworkColors.detail.closestBasicColor() {
+//                    colorsForAlbum.append(detailColor)
+//                }
                 guard let mediaID = (album.representativeItem?.value(forProperty: MPMediaItemPropertyAlbumPersistentID) as? NSNumber)?.stringValue else { continue }
                 
                 guard let title = album.representativeItem?.value(forProperty: MPMediaItemPropertyAlbumTitle) as? String else { continue }
@@ -76,6 +79,5 @@ public class DataSource {
                 }
             }
         }
-        return sourceAlbums
     }
 }

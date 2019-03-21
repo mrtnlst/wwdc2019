@@ -8,6 +8,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     private var colorPickerTitle = UILabel()
     private var albumListTitle = UILabel()
     private var nowPlayingTitle = UILabel()
+    private var colorPickerTitleView = UIView()
     private var albumListTitleView = UIView()
     private var nowPlayingTitleView = UIView()
     
@@ -17,6 +18,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     private var sourceAlbums: [Album]
     private var visibleAlbums = [Album]()
     private var selectedColors = [Color]()
+    
     let colorPickerViewIdentifier = "colorPickerViewCell"
     let albumPickerViewIdentifier = "albumsPickerViewCell"
     
@@ -37,6 +39,14 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         configureConstraints()
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        NSLayoutConstraint.activate([
+            colorPickerView.heightAnchor.constraint(equalToConstant: colorPickerView.collectionViewLayout.collectionViewContentSize.height)
+            ])
+    }
+    
     // MARK: - UI
     
     private func configureViews() {
@@ -53,11 +63,17 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         nowPlayingTitle.textAlignment = .center
         nowPlayingTitleView.addSubview(nowPlayingTitle)
         
+        colorPickerTitleView.translatesAutoresizingMaskIntoConstraints = false
+        colorPickerTitleView.backgroundColor = .colorPickerBackground
+        colorPickerTitleView.layer.cornerRadius = 10
+        view.addSubview(colorPickerTitleView)
+        
         colorPickerTitle.translatesAutoresizingMaskIntoConstraints = false
         colorPickerTitle.font = UIFont.systemFont(ofSize: 40, weight: .bold)
         colorPickerTitle.textColor = .white
         colorPickerTitle.text = "Pick a color"
-        view.addSubview(colorPickerTitle)
+        colorPickerTitle.textAlignment = .center
+        colorPickerTitleView.addSubview(colorPickerTitle)
         
         albumListTitleView.translatesAutoresizingMaskIntoConstraints = false
         albumListTitleView.backgroundColor = .colorPickerBackground
@@ -75,7 +91,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         colorPickerView.delegate = self
         colorPickerView.dataSource = self
         colorPickerView.register(ColorCell.self, forCellWithReuseIdentifier: colorPickerViewIdentifier)
-        view.addSubview(colorPickerView)
+        view.insertSubview(colorPickerView, belowSubview: colorPickerTitleView)
         
         albumPickerView = AlbumPickerView(frame: .zero)
         albumPickerView.delegate = self
@@ -90,13 +106,18 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            colorPickerTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            colorPickerTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            colorPickerView.topAnchor.constraint(equalTo: colorPickerTitle.bottomAnchor, constant: 10),
+            colorPickerTitleView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            colorPickerTitleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            colorPickerTitleView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            
+            colorPickerTitle.topAnchor.constraint(equalTo: colorPickerTitleView.topAnchor, constant: 10),
+            colorPickerTitle.bottomAnchor.constraint(equalTo: colorPickerTitleView.bottomAnchor, constant: -15),
+            colorPickerTitle.centerXAnchor.constraint(equalTo: colorPickerTitleView.centerXAnchor),
+            
+            colorPickerView.topAnchor.constraint(equalTo: colorPickerTitleView.bottomAnchor, constant: -15),
             colorPickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             colorPickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            colorPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 1/6),
             
             albumListTitleView.topAnchor.constraint(equalTo: colorPickerView.bottomAnchor, constant: 10),
             albumListTitleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
