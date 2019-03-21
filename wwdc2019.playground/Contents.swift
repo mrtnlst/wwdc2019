@@ -1,3 +1,5 @@
+// Created by Martin List as a WWDC19 Scholarship submission.
+
 import PlaygroundSupport
 import UIKit
 
