@@ -74,7 +74,7 @@ public class DataSource {
                 
                 sourceAlbums.append(Album(artwork: artwork, mediaID: mediaID, title: title, colors: colorsForAlbum))
                 
-                if sourceAlbums.count == 20 {
+                if sourceAlbums.count == 50 {
                     break
                 }
             }
