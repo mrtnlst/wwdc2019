@@ -18,6 +18,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     private var sourceAlbums: [Album]
     private var visibleAlbums = [Album]()
     private var selectedColors = [Color]()
+    private var colorPickerViewHeight = NSLayoutConstraint()
     
     let colorPickerViewIdentifier = "colorPickerViewCell"
     let albumPickerViewIdentifier = "albumsPickerViewCell"
@@ -42,9 +43,16 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        NSLayoutConstraint.activate([
-            colorPickerView.heightAnchor.constraint(equalToConstant: colorPickerView.collectionViewLayout.collectionViewContentSize.height)
-            ])
+        colorPickerViewHeight = colorPickerView.heightAnchor.constraint(equalToConstant: colorPickerView.collectionViewLayout.collectionViewContentSize.height)
+        NSLayoutConstraint.activate([colorPickerViewHeight])
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        NSLayoutConstraint.deactivate([colorPickerViewHeight])
+        
+        colorPickerViewHeight = colorPickerView.heightAnchor.constraint(equalToConstant: colorPickerView.collectionViewLayout.collectionViewContentSize.height)
+        NSLayoutConstraint.activate([colorPickerViewHeight])
     }
     
     // MARK: - UI
