@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import MediaPlayer
 
-public class InfoViewController: UIViewController {
+public class RootViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -91,11 +91,11 @@ public class InfoViewController: UIViewController {
     }
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 50),
+            titleLabel.heightAnchor.constraint(equalToConstant: 40),
             
-            introductionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
+            introductionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             introductionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -50),
             introductionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 50),
             introductionLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor),
@@ -140,19 +140,21 @@ public class InfoViewController: UIViewController {
         self.activityIndicator.isHidden = false
         self.activityIndicator.startAnimating()
     
-        self.dataSource.getData {
-            DispatchQueue.main.async {
-                let viewController = ViewController(sourceAlbums: self.dataSource.sourceAlbums)
-                self.present(viewController, animated: true, completion: nil)
-            }
+        DispatchQueue.global(qos: .background).async {
+            self.dataSource.getData(completion: {
+                DispatchQueue.main.async {
+                    let viewController = ViewController(sourceAlbums: self.dataSource.sourceAlbums)
+                    self.present(viewController, animated: true, completion: nil)
+                }
+            })
         }
-    
     }
     
     private func disableGrantAccess() {
         DispatchQueue.main.async {
             self.accessButton.isEnabled = false
             self.accessButton.alpha = 0.6
+            self.accessButton.setTitle("Access denied", for: .normal)
         }
     }
     
@@ -162,6 +164,7 @@ public class InfoViewController: UIViewController {
             self.startButton.alpha = 1.0
             self.accessButton.isEnabled = false
             self.accessButton.alpha = 0.6
+            self.accessButton.setTitle("Access granted", for: .normal)
         }
     }
     

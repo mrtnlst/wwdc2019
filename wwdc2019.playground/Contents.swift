@@ -1,5 +1,6 @@
 import PlaygroundSupport
 import UIKit
 
-let infoViewController = InfoViewController()
-PlaygroundPage.current.liveView = infoViewController
+let rootViewController = RootViewController()
+PlaygroundPage.current.liveView = rootViewController
+PlaygroundPage.current.needsIndefiniteExecution = true

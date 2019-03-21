@@ -50,7 +50,6 @@ public class PlayerView: UIView {
         albumTitle.text = ". . ."
         albumTitle.textAlignment = .center
         albumTitle.numberOfLines = 1
-        albumTitle.textAlignment = .center
         addSubview(albumTitle)
         
         // UIBarButtonItems
@@ -99,6 +98,7 @@ public class PlayerView: UIView {
             artwork.widthAnchor.constraint(equalToConstant: 120),
             
             albumTitle.topAnchor.constraint(equalTo: artwork.bottomAnchor, constant: 10),
+            albumTitle.centerXAnchor.constraint(equalTo: artwork.centerXAnchor),
             albumTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             albumTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             

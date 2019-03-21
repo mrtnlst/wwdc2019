@@ -77,7 +77,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         view.addSubview(colorPickerTitleView)
         
         colorPickerTitle.translatesAutoresizingMaskIntoConstraints = false
-        colorPickerTitle.font = UIFont.systemFont(ofSize: 40, weight: .bold)
+        colorPickerTitle.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         colorPickerTitle.textColor = .white
         colorPickerTitle.text = "Pick a color"
         colorPickerTitle.textAlignment = .center
