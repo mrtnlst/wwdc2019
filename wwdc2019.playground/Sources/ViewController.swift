@@ -67,7 +67,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         nowPlayingTitle.translatesAutoresizingMaskIntoConstraints = false
         nowPlayingTitle.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         nowPlayingTitle.textColor = .white
-        nowPlayingTitle.text = "Now playing"
+        nowPlayingTitle.text = "Now Playing"
         nowPlayingTitle.textAlignment = .center
         nowPlayingTitleView.addSubview(nowPlayingTitle)
         
@@ -79,7 +79,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         colorPickerTitle.translatesAutoresizingMaskIntoConstraints = false
         colorPickerTitle.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         colorPickerTitle.textColor = .white
-        colorPickerTitle.text = "Pick a color"
+        colorPickerTitle.text = "Color Picker"
         colorPickerTitle.textAlignment = .center
         colorPickerTitleView.addSubview(colorPickerTitle)
         
@@ -91,7 +91,7 @@ public class ViewController: UIViewController, UICollectionViewDelegateFlowLayou
         albumListTitle.translatesAutoresizingMaskIntoConstraints = false
         albumListTitle.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         albumListTitle.textColor = .white
-        albumListTitle.text = "Albums"
+        albumListTitle.text = "Album Selection"
         albumListTitle.textAlignment = .center
         albumListTitleView.addSubview(albumListTitle)
         

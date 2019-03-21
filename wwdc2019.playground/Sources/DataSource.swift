@@ -22,6 +22,7 @@ public class DataSource {
             getiOSData()
             completion()
         case .macOS:
+            getmacOSData()
             completion()
         }
     }
