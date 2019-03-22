@@ -42,16 +42,19 @@ public class RootViewController: UIViewController {
         introductionLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         introductionLabel.textColor = .white
         introductionLabel.text = "Follow this playground to discover your albums sorted by their artwork's colors."
-        introductionLabel.textAlignment = .left
+        introductionLabel.textAlignment = .center
         introductionLabel.numberOfLines = 0
+        introductionLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         view.addSubview(introductionLabel)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.systemFont(ofSize: 40, weight: .bold)
+        titleLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         titleLabel.textColor = .white
         titleLabel.text = "Albums by Color"
         titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 1
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         view.addSubview(titleLabel)
         
         stepsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -107,17 +110,14 @@ public class RootViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 40),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
+
             introductionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            introductionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            introductionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            introductionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -40),
+            introductionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 40),
             
             stepsLabel.topAnchor.constraint(equalTo: introductionLabel.bottomAnchor, constant: 20),
-            stepsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            stepsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stepsLabel.leadingAnchor.constraint(equalTo: introductionLabel.leadingAnchor, constant: -5),
+            stepsLabel.trailingAnchor.constraint(equalTo: introductionLabel.trailingAnchor, constant: 5),
             stepsLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: 30),
             
             accessButton.topAnchor.constraint(equalTo: stepsLabel.bottomAnchor, constant: 40),
